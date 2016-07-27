@@ -126,5 +126,13 @@ Template.appBody.events({
     list._id = Lists.insert(list);
 
     Router.go('listsShow', list);
+  },
+  
+  'click .saml-login': function(event, template) {
+    var provider = "tuakiri";
+    Meteor.loginWithSaml({ provider:provider }, function(error, result){
+      console.log(error, result)
+      
+    });
   }
 });
