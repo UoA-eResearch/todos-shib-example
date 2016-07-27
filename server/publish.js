@@ -12,6 +12,12 @@ Meteor.publish('privateLists', function() {
 
 Meteor.publish('todos', function(listId) {
   check(listId, String);
+  return [Todos.find({listId: listId}), Images.find()];
+});
 
-  return Todos.find({listId: listId});
+Images.allow({
+  'insert': function () {
+    // add custom authentication code here
+    return true;
+  }
 });

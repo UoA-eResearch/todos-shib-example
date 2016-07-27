@@ -43,6 +43,7 @@ Meteor.startup(function () {
       _.each(list.items, function(text) {
         Todos.insert({listId: list_id,
                       text: text,
+                      checked: false,
                       createdAt: new Date(timestamp)});
         timestamp += 1; // ensure unique timestamp.
       });

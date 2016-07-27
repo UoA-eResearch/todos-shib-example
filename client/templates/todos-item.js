@@ -46,5 +46,22 @@ Template.todosItem.events({
     Todos.remove(this._id);
     if (! this.checked)
       Lists.update(this.listId, {$inc: {incompleteCount: -1}});
+  },
+  
+  'change .file': function(event, template) {
+    var files = event.target.files;
+    var taskId = this._id;
+    for (var i = 0, ln = files.length; i < ln; i++) {
+      Images.insert(files[i], function (err, fileObj) {
+        // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+        var timer = setInterval(function() {
+          // repeatedly check if file is uploaded
+          if (fileObj.isUploaded) {
+            Todos.update(taskId, {$set: {img: fileObj.url()}});
+            clearInterval(timer);
+          }
+        }, 250);
+      });
+    }
   }
 });
